@@ -1,0 +1,17 @@
+<?php
+include_once 'Buku.php';
+
+class BukuCRUD {
+    private $bukuList = [];
+
+    public function tambahBuku($judul, $penulis, $tahun_terbit, $harga_beli, $harga_jual) {
+        $id = count($this->bukuList) + 1;
+        $buku = new Buku($id, $judul, $penulis, $tahun_terbit, $harga_beli, $harga_jual);
+        $this->bukuList[$id] = $buku;
+    }
+
+    public function bacaSemuaBuku() {
+        return $this->bukuList;
+    }
+}
+?>
