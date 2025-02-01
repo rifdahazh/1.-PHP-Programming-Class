@@ -1,0 +1,83 @@
+<?php
+include_once 'BukuCRUD.php';
+
+// Objek BukuCRUD
+$bukuCRUD = new BukuCRUD();
+
+// CRUD
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    if (isset($_POST['tambah'])) {
+        $judul = $_POST['judul'];
+        $penulis = $_POST['penulis'];
+        $tahun_terbit = $_POST['tahun_terbit'];
+        $harga_beli = $_POST['harga_beli'];
+        $harga_jual = $_POST['harga_jual'];
+        
+        $bukuCRUD->tambahBuku($judul, $penulis, $tahun_terbit, $harga_beli, $harga_jual);
+    }
+}
+
+$bukuList = $bukuCRUD->bacaSemuaBuku();
+?>
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Buku</title>
+</head>
+<body>
+
+    <h2>Manajemen Buku</h2>
+
+    <h3>Tambah Buku</h3>
+    <form method="POST">
+        <label for="judul">Judul:</label><br>
+        <input type="text" name="judul" required><br>
+        <label for="penulis">Penulis:</label><br>
+        <input type="text" name="penulis" required><br>
+        <label for="tahun_terbit">Tahun Terbit:</label><br>
+        <input type="text" name="tahun_terbit" required><br>
+        <label for="harga_beli">Harga Beli:</label><br>
+        <input type="number" name="harga_beli" required><br>
+        <label for="harga_jual">Harga Jual:</label><br>
+        <input type="number" name="harga_jual" required><br><br>
+        <button type="submit" name="tambah">Tambah Buku</button>
+    </form>
+
+    <h3>Daftar Buku</h3>
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>Judul</th>
+            <th>Penulis</th>
+            <th>Tahun Terbit</th>
+            <th>Harga Beli</th>
+            <th>Harga Jual</th>
+            <th>Laba/Rugi</th>
+        </tr>
+        <?php
+        $totalLaba = 0;
+        foreach ($bukuList as $buku) {
+            $laba = $buku->getLaba();
+            $totalLaba += $laba;
+            echo "<tr>
+                    <td>{$buku->getId()}</td>
+                    <td>{$buku->getJudul()}</td>
+                    <td>{$buku->getPenulis()}</td>
+                    <td>{$buku->getTahunTerbit()}</td>
+                    <td>Rp " . number_format($buku->getHargaBeli(), 0, ',', '.') . "</td>
+                    <td>Rp " . number_format($buku->getHargaJual(), 0, ',', '.') . "</td>
+                    <td>Rp " . number_format($laba, 0, ',', '.') . "</td>
+                </tr>";
+        }
+        ?>
+        <tr>
+            <td colspan="6"><strong>Total Laba/Rugi</strong></td>
+            <td><strong>Rp <?= number_format($totalLaba, 0, ',', '.') ?></strong></td>
+        </tr>
+    </table>
+
+</body>
+</html>
