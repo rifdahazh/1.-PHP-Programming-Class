@@ -1,0 +1,27 @@
+<?php
+class Buku {
+    private $id;
+    private $judul;
+    private $penulis;
+    private $tahun_terbit;
+    private $harga_beli;
+    private $harga_jual;
+
+    public function __construct($id, $judul, $penulis, $tahun_terbit, $harga_beli, $harga_jual) {
+        $this->id = $id;
+        $this->judul = $judul;
+        $this->penulis = $penulis;
+        $this->tahun_terbit = $tahun_terbit;
+        $this->harga_beli = $harga_beli;
+        $this->harga_jual = $harga_jual;
+    }
+
+    public function getId() { return $this->id; }
+    public function getJudul() { return $this->judul; }
+    public function getPenulis() { return $this->penulis; }
+    public function getTahunTerbit() { return $this->tahun_terbit; }
+    public function getHargaBeli() { return $this->harga_beli; }
+    public function getHargaJual() { return $this->harga_jual; }
+    public function getLaba() { return $this->harga_jual - $this->harga_beli; }
+}
+?>
